@@ -5,6 +5,15 @@ const SpotifyStrategy = require('passport-spotify').Strategy;
 const bodyParser = require('body-parser');
 const production = process.env.NODE_ENV == 'production';
 
+let settings = {};
+
+// grab tokens from config
+if (production) {
+  settings = require('./config.prod');
+} else {
+  settings = require('./config');
+}
+
 // setting up the Spotify API
 const SpotifyWebApi = require('spotify-web-api-node');
 const spotifyApi = new SpotifyWebApi({
@@ -24,6 +33,15 @@ if (production) {
 }
 
 // Set up Passport
+
+
+// Lyrics
+const Lyricist = require('lyricist');
+
+const lyricist = new Lyricist(settings.genius.token);
+
+lyricist.song(714198)
+  .then(song => console.log(song.title));
 
 const PORT = process.env.PORT || 3001;
 
