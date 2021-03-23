@@ -16,6 +16,7 @@
     "connect-mongo": "^4.4.0",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
+    "genius-lyrics-api": "^3.0.6",
     "lyricist": "^2.2.2",
     "mongoose": "^5.12.1",
     "musixmatch-node": "^1.0.2",
