@@ -1,6 +1,8 @@
 const express = require("express");
 const passport = require("passport");
+const session = require('express-session');
 const cookieParser = require("cookie-parser");
+const cors = require('cors');
 const SpotifyStrategy = require("passport-spotify").Strategy;
 const bodyParser = require("body-parser");
 const production = process.env.NODE_ENV == "production";
@@ -27,6 +29,8 @@ const spotifyApi = new SpotifyWebApi({
 // Spotify Login setup
 const app = express();
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(cors());
 
 if (production) {
   app.use(express.static("./dist"));
@@ -34,7 +38,43 @@ if (production) {
   app.use(express.static("./client/public"));
 }
 
-// Set up Passport
+// middleware required to initialize Passport
+app.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Passport setup
+passport.use('spotify',
+  new SpotifyStrategy(
+    {
+      clientID: settings.spotify.clientId,
+      clientSecret: settings.spotify.secret,
+      callbackURL: settings.login.callback,
+      scope: settings.spotify.scopes
+    },
+    (accessToken, refreshToken, profile, done) => {
+      const userResponse = {
+        accessToken,
+        refreshToken,
+        profile
+      };
+      return done(null, userResponse);
+    }
+  )
+)
+
+// serialize and deserialize are used to handle sessions automatically
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
 
 // Lyrics
 const Lyricist = require("lyricist");
