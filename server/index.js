@@ -56,11 +56,12 @@ passport.use('spotify',
       callbackURL: settings.login.callback,
       scope: settings.spotify.scopes
     },
-    (accessToken, refreshToken, profile, done) => {
+    (accessToken, refreshToken, expires_in, profile, done) => {
       const userResponse = {
         accessToken,
         refreshToken,
-        profile
+        expires_in,
+        ...profile
       };
       return done(null, userResponse);
     }
@@ -75,6 +76,27 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
+
+// Passport Authentication
+app.get('/auth/spotify', passport.authenticate('spotify'), function(req, res) {
+  // The request will be redirected to spotify for authentication, so this
+  // function will not be called.
+});
+
+app.get(
+  settings.login.callback,
+  passport.authenticate('spotify', { failureRedirect: '/login' }),
+  (req, res) => {
+    // Successful authentication, redirect home.
+    console.log('User logged in');
+    res.redirect('/');
+  }
+);
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+})
 
 // Lyrics
 const Lyricist = require("lyricist");
