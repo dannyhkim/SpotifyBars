@@ -14,6 +14,7 @@ class Login extends Component {
           Real-time lyrics for the song you're currently listening to on
           Spotify!
         </h3>
+        <a href="http://localhost:3001/auth/spotify">Sign in with Spotify</a>
       </div>
     );
   }
