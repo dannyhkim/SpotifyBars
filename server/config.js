@@ -1,7 +1,7 @@
 const spotify = {
   clientId: '13020ef7b35e4e4ea69a9d2a305b5aa9',
   secret: 'bee6683c50df412b813d8ddf11560a58',
-  scopes: ['user-read-playback-state']
+  scopes: ['user-read-playback-state', 'user-read-email', 'user-read-private']
 };
 
 const login = {
