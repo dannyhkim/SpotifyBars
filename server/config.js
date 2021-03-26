@@ -5,7 +5,7 @@ const spotify = {
 };
 
 const login = {
-  callback: "http://localhost:3000/auth/spotify/callback"
+  callback: "http://localhost:4000/auth/spotify/callback"
 };
 
 const genius = {

@@ -26,11 +26,8 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <Route path="/mainmenu">
-            <MainMenu />
-          </Route>
           <Route path="/">
-            <p>You are not authenticated</p>
+            <MainMenu />
           </Route>
         </Switch>
       </Router>

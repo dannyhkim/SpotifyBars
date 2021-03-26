@@ -1,4 +1,5 @@
 const express = require("express");
+const router = require('express').Router();
 const passport = require("passport");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
@@ -9,6 +10,8 @@ const production = process.env.NODE_ENV == "production";
 const { getLyrics, getSong } = require("genius-lyrics-api");
 
 let settings = {};
+
+
 
 // grab tokens from config
 if (production) {
@@ -37,6 +40,14 @@ if (production) {
 } else {
   app.use(express.static("./client/public"));
 }
+
+// Add Access Control Allow Origin headers
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 
 // middleware required to initialize Passport
 app.use(
@@ -96,7 +107,7 @@ app.get(
 );
 
 app.get(
-  settings.login.callback,
+  '/auth/spotify/callback',
   passport.authenticate("spotify", { failureRedirect: "/login" }),
   (req, res) => {
     // Successful authentication, redirect home.
@@ -161,7 +172,7 @@ getSong(options).then((song) =>
 	${song.lyrics}`)
 );
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
