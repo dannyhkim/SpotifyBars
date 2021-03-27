@@ -13,12 +13,14 @@ class MainMenu extends Component {
     axios
       .get("http://localhost:4000/api/getSong", { withCredentials: true })
       .then((res) => {
-        if (res.status === 200) return res.json();
+        if (res.status === 200)
+        console.log("response: " + JSON.stringify(res.data));
+        return res.json();
         throw new Error("failed to authenticate user");
       })
       .then((json) => {
         this.setState({ loggedIn: true, song: json });
-        console.log(json);
+        console.log("Current song:" + JSON.stringify(json));
       })
       .catch((err) => {
         this.setState({

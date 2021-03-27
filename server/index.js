@@ -89,6 +89,8 @@ passport.use(
 
 // we gonna need access token and refresh token and then we can use spotifyApi to get current track data
 app.get('/api/getSong', (req, res) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Credentials', true);
   const cookies = req.cookies;
   console.log("Cookies working now?" + JSON.stringify(req.cookies));
   const token = cookies['user.token'];
