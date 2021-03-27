@@ -1,5 +1,5 @@
 const express = require("express");
-const router = require('express').Router();
+const router = require("express").Router();
 const passport = require("passport");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
@@ -11,15 +11,13 @@ const { getLyrics, getSong } = require("genius-lyrics-api");
 
 let settings = {};
 
-
-
 // grab tokens from config
 if (production) {
   settings = require("./config.prod");
 } else {
   settings = require("./config");
 }
-const host = process.env.HOST || 'http://localhost:3000';
+const host = process.env.HOST || "http://localhost:3000";
 
 // setting up the Spotify API
 const SpotifyWebApi = require("spotify-web-api-node");
@@ -40,14 +38,6 @@ if (production) {
 } else {
   app.use(express.static("./client/public"));
 }
-
-// Add Access Control Allow Origin headers
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
 
 // middleware required to initialize Passport
 app.use(
@@ -97,6 +87,32 @@ passport.use(
   )
 );
 
+// we gonna need access token and refresh token and then we can use spotifyApi to get current track data
+app.get('/api/getSong', (req, res) => {
+  const cookies = req.cookies;
+  console.log("Cookies working now?" + JSON.stringify(req.cookies));
+  const token = cookies['user.token'];
+  const refresh = cookies['user.refresh'];
+
+  if (token) {
+    spotifyApi.setAccessToken(token);
+    spotifyApi.setRefreshToken(refresh);
+
+    spotifyApi
+      .getMyCurrentPlayingTrack({})
+      .then((result) => {
+        res.status(200).send({ result });
+      })
+      .catch((err) => {
+        if (err.statusCode === 401) {
+          res.redirect(`${host}/auth/refresh`);
+        }
+      });
+  } else {
+    res.status(200).send({ error: 'No access token' });
+  }
+});
+
 // Passport Authentication
 app.get(
   "/auth/spotify",
@@ -108,13 +124,32 @@ app.get(
 
 app.get(
   '/auth/spotify/callback',
-  passport.authenticate("spotify", { failureRedirect: "/login" }),
+  passport.authenticate('spotify', {
+    failureRedirect: '/'
+  }),
   (req, res) => {
-    // Successful authentication, redirect home.
-    console.log("User logged in");
-    res.redirect(`${host}`);
+    console.log('User logged in...');
+    res.cookie('loggedIn', true, {
+      maxAge: 1000*60*60*24*7,
+      httpOnly: false
+    });
+    res.cookie('user.token', req.user.accessToken, {
+      maxAge: 1000*60*60*24*7,
+      httpOnly: true
+    });
+    res.cookie('user.refresh', req.user.refreshToken, {
+      maxAge: 1000*60*60*24*7,
+      httpOnly: true
+    });
+    res.send();
+    res.redirect(`${host}/mainmenu`);
   }
 );
+
+app.get('/auth/refresh', (req, res) => {
+  console.log("Refreshing token...");
+  const cookies = req.cookies;
+})
 
 app.get("/logout", (req, res) => {
   req.logout();
@@ -122,55 +157,30 @@ app.get("/logout", (req, res) => {
 });
 
 // Lyrics
-const Lyricist = require("lyricist");
+// const Lyricist = require("lyricist");
 
-const lyricist = new Lyricist(settings.genius.token);
-app.get("/api/fetchLyrics", (req, res) => {
-  console.log(`Lyrics search: ${req.query.query}...`);
-});
+// const lyricist = new Lyricist(settings.genius.token);
+// app.get("/api/fetchLyrics", (req, res) => {
+//   console.log(`Lyrics search: ${req.query.query}...`);
+// });
 
-// const song = "whatever";
+// // trying different api
+// const options = {
+//   apiKey: settings.genius.token,
+//   title: "Loyal",
+//   artist: "Chris Brown",
+//   optimizeQuery: true,
+// };
 
-// lyricist
-//   .search({ query: song })
-//   .then((results) => {
-//     console.log(`${results.length} results found for ${song}`);
-//     const resultPromises = [];
-//     results.slice(0, 5).forEach((result) => {
-//       resultPromises.push(
-//         lyricist.song(result.id, { fetchLyrics: true, textFormat: "html" })
-//       );
-//     });
-//     return Promise.all(resultPromises);
-//   })
-//   .then((results) => {
-//     console.log(`Lyrics: ${results.forEach(song => console.log(JSON.stringify(song.lyrics)))} \n`);
-//     // res.status(200).json(results);
-//   })
-//   .catch((error) => {
-//     // res.status(500).json({ error });
-//     console.log("error" + error);
-//   });
+// getLyrics(options).then((lyrics) => console.log(lyrics));
 
-// lyricist.song(714198).then((song) => console.log(song.title));
-
-// trying different api
-const options = {
-  apiKey: settings.genius.token,
-  title: "Loyal",
-  artist: "Chris Brown",
-  optimizeQuery: true,
-};
-
-getLyrics(options).then((lyrics) => console.log(lyrics));
-
-getSong(options).then((song) =>
-  console.log(`
-	${song.id}
-	${song.url}
-	${song.albumArt}
-	${song.lyrics}`)
-);
+// getSong(options).then((song) =>
+//   console.log(`
+// 	${song.id}
+// 	${song.url}
+// 	${song.albumArt}
+// 	${song.lyrics}`)
+// );
 
 const PORT = process.env.PORT || 4000;
 
