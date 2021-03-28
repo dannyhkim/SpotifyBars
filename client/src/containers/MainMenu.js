@@ -15,12 +15,7 @@ class MainMenu extends Component {
       .then((res) => {
         if (res.status === 200)
         console.log("response: " + JSON.stringify(res.data));
-        return res.json();
-        throw new Error("failed to authenticate user");
-      })
-      .then((json) => {
-        this.setState({ loggedIn: true, song: json });
-        console.log("Current song:" + JSON.stringify(json));
+        this.setState({ loggedIn: true, song: res.data });
       })
       .catch((err) => {
         this.setState({

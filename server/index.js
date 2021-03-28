@@ -149,6 +149,8 @@ app.get(
 );
 
 app.get('/auth/refresh', (req, res) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Credentials', true);
   console.log("Refreshing token...");
   const cookies = req.cookies;
 })
