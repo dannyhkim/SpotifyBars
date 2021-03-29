@@ -34,7 +34,7 @@ class MainMenu extends Component {
           <h1>Welcome!</h1>
           <div>
             <h2>Welcome!</h2>
-            <button onClick={this.props.getCurrentSong}>Get Current Song</button>
+            <button onClick={this.props.onGetCurrentSong}>Get Current Song</button>
           </div>
         </div>
       </div>
