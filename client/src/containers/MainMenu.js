@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import axios from 'axios';
+import axios from "axios";
+import * as actions from "../store/actions/index";
+import { connect } from "react-redux";
 
 class MainMenu extends Component {
   state = {
@@ -9,21 +11,21 @@ class MainMenu extends Component {
     song: null,
   };
 
-  getCurrentSong = () => {
-    axios
-      .get("http://localhost:4000/api/getSong", { withCredentials: true })
-      .then((res) => {
-        if (res.status === 200)
-        console.log("response: " + JSON.stringify(res.data));
-        this.setState({ loggedIn: true, song: res.data });
-      })
-      .catch((err) => {
-        this.setState({
-          loggedIn: false,
-          error: "failed to authenticate user",
-        });
-      });
-  };
+  // getCurrentSong = () => {
+  //   axios
+  //     .get("http://localhost:4000/api/getSong", { withCredentials: true })
+  //     .then((res) => {
+  //       if (res.status === 200)
+  //       console.log("response: " + JSON.stringify(res.data));
+  //       this.setState({ loggedIn: true, song: res.data });
+  //     })
+  //     .catch((err) => {
+  //       this.setState({
+  //         loggedIn: false,
+  //         error: "failed to authenticate user",
+  //       });
+  //     });
+  // };
 
   render() {
     return (
@@ -32,7 +34,7 @@ class MainMenu extends Component {
           <h1>Welcome!</h1>
           <div>
             <h2>Welcome!</h2>
-            <button onClick={this.getCurrentSong}>Get Current Song</button>
+            <button onClick={this.props.getCurrentSong}>Get Current Song</button>
           </div>
         </div>
       </div>
@@ -40,4 +42,17 @@ class MainMenu extends Component {
   }
 }
 
-export default MainMenu;
+const mapStateToProps = (state) => {
+  return {
+    currentSong: state.song.currentSong,
+    loading: state.song.loading,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetCurrentSong: () => dispatch(actions.getCurrentSong()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainMenu);

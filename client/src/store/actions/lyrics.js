@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 
-export const getCurrentSong = () => {
+export const getLyrics = () => {
   return {
-    type: actionTypes.GET_CURRENT_SONG
+    type: actionTypes.GET_LYRICS
   };
 }

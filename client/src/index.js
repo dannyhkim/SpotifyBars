@@ -9,9 +9,13 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
-import getSongReducer from "./store/reducers/song";
 
-const rootReducer = combineReducers({});
+// Reducers
+import songReducer from "./store/reducers/song";
+
+const rootReducer = combineReducers({
+  song: songReducer
+});
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 

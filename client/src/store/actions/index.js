@@ -1,3 +1,3 @@
 export {
-
-}
+  getCurrentSong
+} from './song';
