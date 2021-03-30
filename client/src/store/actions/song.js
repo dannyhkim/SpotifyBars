@@ -9,7 +9,7 @@ export const getCurrentSong = () => {
     return new Promise((resolve, reject) => {
       // get request for current song
       axios
-        .get("/api/getSong", { withCredentials: true })
+        .get("/api/fetchSong", { withCredentials: true })
         .then((res) => {
           const data = res.data;
 

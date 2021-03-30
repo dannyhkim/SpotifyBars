@@ -88,7 +88,7 @@ passport.use(
 );
 
 // we gonna need access token and refresh token and then we can use spotifyApi to get current track data
-app.get('/api/getSong', (req, res) => {
+app.get('/api/fetchSong', (req, res) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.header('Access-Control-Allow-Credentials', true);
   const cookies = req.cookies;
@@ -162,29 +162,44 @@ app.get("/logout", (req, res) => {
 
 // Lyrics
 // const Lyricist = require("lyricist");
-
 // const lyricist = new Lyricist(settings.genius.token);
-// app.get("/api/fetchLyrics", (req, res) => {
-//   console.log(`Lyrics search: ${req.query.query}...`);
-// });
 
-// // trying different api
-// const options = {
-//   apiKey: settings.genius.token,
-//   title: "Loyal",
-//   artist: "Chris Brown",
-//   optimizeQuery: true,
-// };
 
-// getLyrics(options).then((lyrics) => console.log(lyrics));
+app.get("/api/fetchLyrics", (req, res) => {
+  console.log('Searching for lyrics...');
 
-// getSong(options).then((song) =>
-//   console.log(`
-// 	${song.id}
-// 	${song.url}
-// 	${song.albumArt}
-// 	${song.lyrics}`)
-// );
+  const options = {
+    apiKey: settings.genius.token,
+    title: req.song.title,
+    artist: req.song.artist,
+    optimizeQuery: true,
+  }
+  getLyrics(options)
+    .then(lyrics => {
+      res.status(200).json(lyrics);
+    })
+    .catch(err => {
+      res.status(500).json({ err });
+    })
+});
+
+// trying different api
+const options = {
+  apiKey: settings.genius.token,
+  title: "Loyal",
+  artist: "Chris Brown",
+  optimizeQuery: true,
+};
+
+getLyrics(options).then((lyrics) => console.log(lyrics));
+
+getSong(options).then((song) =>
+  console.log(`
+	${song.id}
+	${song.url}
+	${song.albumArt}
+	${song.lyrics}`)
+);
 
 const PORT = process.env.PORT || 4000;
 
