@@ -167,7 +167,6 @@ app.get("/logout", (req, res) => {
 
 app.get("/api/fetchLyrics", (req, res) => {
   console.log('Searching for lyrics...');
-
   const options = {
     apiKey: settings.genius.token,
     title: req.query.title,

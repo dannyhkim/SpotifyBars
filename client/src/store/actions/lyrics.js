@@ -14,7 +14,7 @@ export const getLyrics = () => {
       console.log("artist " + artist);
       console.log("title " + title);
 
-      axios.get(`/api/fetchLyrics?artist="${artist}"&title="${title}"`)
+      axios.get(`/api/fetchLyrics?artist=${artist}&title=${title}`)
         .then(res => {
           const lyrics = res.data;
 
