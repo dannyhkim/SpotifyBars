@@ -18,6 +18,7 @@ class MainMenu extends Component {
           <h1>Welcome!</h1>
           <div>
             <button onClick={this.props.onGetCurrentSong}>Get Current Song</button>
+            <button onClick={this.props.onGetLyrics}>Get lyrics</button>
           </div>
         </div>
       </div>
@@ -29,12 +30,14 @@ const mapStateToProps = (state) => {
   return {
     currentSong: state.song.currentSong,
     loading: state.song.loading,
+    lyrics: state.lyrics.lyrics
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onGetCurrentSong: () => dispatch(actions.getCurrentSong()),
+    onGetLyrics: () => dispatch(actions.getLyrics()),
   }
 }
 

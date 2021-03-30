@@ -7,15 +7,21 @@ export const getLyrics = () => {
     dispatch(getLyricsStarted());
 
     return new Promise((resolve, reject) => {
-      const { currentSong } = getState().currentSong;
+      // grab current song from redux state using getState
+      const currentSong = getState().song.currentSong;
+      const artist = currentSong.artist;
+      const title = currentSong.title;
+      console.log("artist " + artist);
+      console.log("title " + title);
 
-      axios.get(`/api/fetchLyrics?query=${currentSong}`)
+      axios.get(`/api/fetchLyrics?artist="${artist}"&title="${title}"`)
         .then(res => {
           const lyrics = res.data;
 
           if (!lyrics) {
             throw new Error();
           }
+          console.log("Lyrics: " + lyrics);
           dispatch(getLyricsSuccess(lyrics));
 
           return resolve();

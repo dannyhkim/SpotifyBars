@@ -1,3 +1,7 @@
 export {
-  getCurrentSong
+  getCurrentSong,
 } from './song';
+
+export {
+  getLyrics,
+} from './lyrics';

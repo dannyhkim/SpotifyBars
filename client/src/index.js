@@ -12,9 +12,11 @@ import thunk from "redux-thunk";
 
 // Reducers
 import songReducer from "./store/reducers/song";
+import lyricsReducer from "./store/reducers/lyrics";
 
 const rootReducer = combineReducers({
-  song: songReducer
+  song: songReducer,
+  lyrics: lyricsReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

@@ -24,7 +24,7 @@ export const getCurrentSong = () => {
             songData = {
               album: result.item.album.name,
               artist: result.item.artists[0].name,
-              trackName: result.item.name,
+              title: result.item.name,
               progress: result.progress_ms,
               duration: result.item.duration_ms,
               isPlaying: true,

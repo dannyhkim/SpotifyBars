@@ -170,10 +170,11 @@ app.get("/api/fetchLyrics", (req, res) => {
 
   const options = {
     apiKey: settings.genius.token,
-    title: req.song.title,
-    artist: req.song.artist,
+    title: req.query.title,
+    artist: req.query.artist,
     optimizeQuery: true,
   }
+  console.log("lyric options" + JSON.stringify(options));
   getLyrics(options)
     .then(lyrics => {
       res.status(200).json(lyrics);
