@@ -14,24 +14,18 @@ class MainMenu extends Component {
 
   componentDidMount () {
     this.props.onGetCurrentSong();
-
-    if (this.state.song) {
-      this.props.onGetLyrics();
-    }
-  }
-
-  componentDidUpdate () {
-    this.props.onGetLyrics();
   }
 
   render() {
+
     return (
       <div>
         <div>
           <h1>You're not listening to anything currently.</h1>
           <div>
             <p>Lyrics</p>
-            <p>{this.state.lyrics}</p>
+            <button onClick={this.props.onGetLyrics}>Get Lyrics</button>
+            <p>{this.props.lyrics ? this.props.lyrics : "No lyrics yet"}</p>
           </div>
         </div>
       </div>

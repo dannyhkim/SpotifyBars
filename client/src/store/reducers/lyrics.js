@@ -30,9 +30,9 @@ const getLyricsFailure = (state, action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.GET_CURRENT_SONG_STARTED: return getLyricsStarted(state, action);
-    case actionTypes.GET_CURRENT_SONG_SUCCESS: return getLyricsSuccess(state, action);
-    case actionTypes.GET_CURRENT_SONG_FAILURE: return getLyricsFailure(state, action);
+    case actionTypes.GET_LYRICS_STARTED: return getLyricsStarted(state, action);
+    case actionTypes.GET_LYRICS_SUCCESS: return getLyricsSuccess(state, action);
+    case actionTypes.GET_LYRICS_FAILURE: return getLyricsFailure(state, action);
     default: return state;
   };
 };
