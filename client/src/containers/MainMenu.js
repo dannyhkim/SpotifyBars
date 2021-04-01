@@ -1,24 +1,37 @@
 import React, { Component } from "react";
-import axios from "axios";
 import * as actions from "../store/actions/index";
 import { connect } from "react-redux";
 
 class MainMenu extends Component {
   state = {
-    loggedIn: false,
+    idle: false,
+    fetchingLyrics: false,
     user: null,
     error: null,
-    song: null,
+    song: this.props.currentSong,
+    lyrics: this.props.lyrics,
   };
+
+  componentDidMount () {
+    this.props.onGetCurrentSong();
+
+    if (this.state.song) {
+      this.props.onGetLyrics();
+    }
+  }
+
+  componentDidUpdate () {
+    this.props.onGetLyrics();
+  }
 
   render() {
     return (
       <div>
         <div>
-          <h1>Welcome!</h1>
+          <h1>You're not listening to anything currently.</h1>
           <div>
-            <button onClick={this.props.onGetCurrentSong}>Get Current Song</button>
-            <button onClick={this.props.onGetLyrics}>Get lyrics</button>
+            <p>Lyrics</p>
+            <p>{this.state.lyrics}</p>
           </div>
         </div>
       </div>

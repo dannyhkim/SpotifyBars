@@ -13,7 +13,7 @@ function App() {
           <nav>
             <ul>
               <li>
-                <Link to="/mainmenu">Main Menu</Link>
+                <Link to="/">Main Menu</Link>
               </li>
               <li>
                 <Link to="/login">Login</Link>
@@ -26,11 +26,8 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <Route path="/mainmenu">
-            <MainMenu />
-          </Route>
           <Route path="/">
-            <p>You haven't logged in yet.</p>
+            <MainMenu />
           </Route>
         </Switch>
       </Router>

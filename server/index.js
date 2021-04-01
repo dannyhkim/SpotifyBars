@@ -144,7 +144,7 @@ app.get(
       httpOnly: true
     });
     res.send();
-    res.redirect(`${host}/mainmenu`);
+    res.redirect(`${host}`);
   }
 );
 
