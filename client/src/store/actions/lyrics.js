@@ -40,10 +40,10 @@ const getLyricsStarted = () => {
   };
 };
 
-const getLyricsSuccess = (currentSong) => {
+const getLyricsSuccess = (lyrics) => {
   return {
     type: actionTypes.GET_LYRICS_SUCCESS,
-    currentSong: currentSong,
+    lyrics: lyrics,
   };
 };
 
