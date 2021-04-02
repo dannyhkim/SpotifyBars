@@ -5,3 +5,7 @@ export {
 export {
   getLyrics,
 } from './lyrics';
+
+export {
+  toggleSettings,
+} from './settings';
