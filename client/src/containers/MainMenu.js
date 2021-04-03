@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 
 class MainMenu extends Component {
   state = {
-    settings: this.props.settings,
-
     fetchingLyrics: false,
     idle: false,
     idleCounter: 0,
@@ -24,8 +22,19 @@ class MainMenu extends Component {
     // every time the state of the song updates (new song, nothing playing), update modes
     // if no song playing
 
-    console.log("prevProps: " + JSON.stringify(prevProps));
-    if (prevProps.currentSong !== this.props.currentSong) {
+    // SOME ISSUE WITH COMPONENTDIDUPDATE. FETCHING LYRICS ONLY WORKS WHEN SWITCHING SONGS.
+    // when component mounts, starts looking for song, but componentDidUpdate gets called rather quickly before the song is retrieved as props
+    console.log(
+      "prevProps currentSong: " + JSON.stringify(prevProps.currentSong)
+    );
+    if (!prevProps.currentSong || !this.props.currentSong) {
+      console.log("theres no song");
+      this.startInterval(2000);
+      // this.setState({ fetchingLyrics: false });
+    } else if (
+      prevProps.currentSong.title !== this.props.currentSong.title ||
+      prevProps.currentSong.artist !== this.props.currentSong.artist
+    ) {
       this.setState({ idle: false, idleCounter: 0 });
 
       this.startInterval(2000);
@@ -35,24 +44,6 @@ class MainMenu extends Component {
       });
       console.log("is this getting called continuously?");
     }
-    // else if (
-    //   this.state.idle ||
-    //   prevProps.currentSong.artist !== this.props.currentSong.artist ||
-    //   prevProps.currentSong.title !== this.props.currentSong.title
-    // ) {
-    //   this.setState({ idle: false, idleCounter: 0 });
-    //   this.startInterval(2000);
-
-    //   this.setState({
-    //     song: {
-    //       artist: this.props.currentSong.artist,
-    //       title: this.props.currentSong.title,
-    //     },
-    //     fetchingLyrics: true,
-    //   });
-    //   // get lyrics
-    //   this.props.onGetLyrics();
-    // }
   }
 
   // persistent checking for current song to update playback state
@@ -60,7 +51,7 @@ class MainMenu extends Component {
   startInterval(interval) {
     clearInterval(this.timerId);
     this.timerId = setInterval(async () => {
-      if (this.props.settings.autoRefresh) {
+      // if (this.props.settings.autoRefresh) {
         await this.props.onGetCurrentSong();
 
         if (!this.props.currentSong && !this.state.idle) {
@@ -72,11 +63,11 @@ class MainMenu extends Component {
             this.setState({ idle: true });
             clearInterval(this.timerId);
           }
-        } else if (this.props.settings.autoScrollLyrics) {
+        }
+        else if (this.props.settings.autoScrollLyrics) {
           // scroll lyrics to position
         }
-      }
-      console.log("SONG: " + JSON.stringify(this.props.currentSong));
+      // }
     }, interval);
   }
 
@@ -119,7 +110,7 @@ class MainMenu extends Component {
             {notListening}
             {idle}
             {fetchingLyrics}
-            {this.props.lyrics}
+            {this.state.fetchingLyrics ? null : this.props.lyrics}
           </div>
         </div>
       </div>
