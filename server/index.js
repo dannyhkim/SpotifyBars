@@ -171,8 +171,12 @@ app.get('/auth/refresh', (req, res) => {
 })
 
 app.get("/logout", (req, res) => {
+  console.log('Logging out...');
   req.logout();
-  res.redirect("/");
+  res.clearCookie('loggedIn');
+  res.clearCookie('user.token');
+  res.clearCookie('user.refresh');
+  res.redirect(`${host}/login`);
 });
 
 // Lyrics
