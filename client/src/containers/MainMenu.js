@@ -24,17 +24,12 @@ class MainMenu extends Component {
 
     // SOME ISSUE WITH COMPONENTDIDUPDATE. FETCHING LYRICS ONLY WORKS WHEN SWITCHING SONGS.
     // when component mounts, starts looking for song, but componentDidUpdate gets called rather quickly before the song is retrieved as props
-    console.log(
-      "prevProps currentSong: " + JSON.stringify(prevProps.currentSong)
-    );
-    if (!prevProps.currentSong || !this.props.currentSong) {
-      console.log("theres no song");
-      this.startInterval(2000);
-      // this.setState({ fetchingLyrics: false });
-    } else if (
-      prevProps.currentSong.title !== this.props.currentSong.title ||
-      prevProps.currentSong.artist !== this.props.currentSong.artist
-    ) {
+    // Possibilities for updating
+    // song playing to no song playing
+
+
+    // no song playing to a song playing
+    if (!prevProps.currentSong && this.props.currentSong) {
       this.setState({ idle: false, idleCounter: 0 });
 
       this.startInterval(2000);
@@ -42,7 +37,26 @@ class MainMenu extends Component {
       this.props.onGetLyrics().then(() => {
         this.setState({ fetchingLyrics: false });
       });
-      console.log("is this getting called continuously?");
+    } else {
+      this.startInterval(2000);
+    }
+
+    // switch from one currently playing song to another song
+    if (this.props.currentSong && prevProps.currentSong) {
+      if (
+        prevProps.currentSong.title !== this.props.currentSong.title ||
+        prevProps.currentSong.artist !== this.props.currentSong.artist
+      ) {
+        this.setState({ idle: false, idleCounter: 0 });
+
+        this.startInterval(2000);
+        this.setState({ fetchingLyrics: true });
+        this.props.onGetLyrics().then(() => {
+          this.setState({ fetchingLyrics: false });
+        });
+      }
+    } else {
+      this.startInterval(2000);
     }
   }
 
@@ -51,7 +65,7 @@ class MainMenu extends Component {
   startInterval(interval) {
     clearInterval(this.timerId);
     this.timerId = setInterval(async () => {
-      // if (this.props.settings.autoRefresh) {
+      if (this.props.settings.autoRefresh) {
         await this.props.onGetCurrentSong();
 
         if (!this.props.currentSong && !this.state.idle) {
@@ -63,11 +77,10 @@ class MainMenu extends Component {
             this.setState({ idle: true });
             clearInterval(this.timerId);
           }
-        }
-        else if (this.props.settings.autoScrollLyrics) {
+        } else if (this.props.settings.autoScrollLyrics) {
           // scroll lyrics to position
         }
-      // }
+      }
     }, interval);
   }
 
@@ -75,6 +88,7 @@ class MainMenu extends Component {
     let notListening;
     let idle;
     let fetchingLyrics;
+    let lyrics;
 
     if (!this.props.currentSong) {
       notListening = (
@@ -102,17 +116,17 @@ class MainMenu extends Component {
       );
     }
 
+    if (!this.state.fetchingLyrics && this.props.currentSong) {
+      lyrics = <div>{this.props.lyrics}</div>;
+    }
+
     return (
       <div>
-        <div>
-          <div>
-            <p>Lyrics</p>
-            {notListening}
-            {idle}
-            {fetchingLyrics}
-            {this.state.fetchingLyrics ? null : this.props.lyrics}
-          </div>
-        </div>
+        <p>Lyrics</p>
+        {notListening}
+        {idle}
+        {fetchingLyrics}
+        {lyrics}
       </div>
     );
   }
