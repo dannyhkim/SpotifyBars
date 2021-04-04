@@ -160,10 +160,6 @@ app.get("/logout", (req, res) => {
 });
 
 // Lyrics
-// const Lyricist = require("lyricist");
-// const lyricist = new Lyricist(settings.genius.token);
-
-
 app.get("/api/fetchLyrics", (req, res) => {
   console.log('Searching for lyrics...');
   const options = {
