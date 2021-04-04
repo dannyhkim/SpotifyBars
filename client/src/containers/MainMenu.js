@@ -22,11 +22,7 @@ class MainMenu extends Component {
     // every time the state of the song updates (new song, nothing playing), update modes
     // if no song playing
 
-    // SOME ISSUE WITH COMPONENTDIDUPDATE. FETCHING LYRICS ONLY WORKS WHEN SWITCHING SONGS.
-    // when component mounts, starts looking for song, but componentDidUpdate gets called rather quickly before the song is retrieved as props
     // Possibilities for updating
-    // song playing to no song playing
-
 
     // no song playing to a song playing
     if (!prevProps.currentSong && this.props.currentSong) {
@@ -37,12 +33,8 @@ class MainMenu extends Component {
       this.props.onGetLyrics().then(() => {
         this.setState({ fetchingLyrics: false });
       });
-    } else {
-      this.startInterval(2000);
-    }
-
-    // switch from one currently playing song to another song
-    if (this.props.currentSong && prevProps.currentSong) {
+    } // switch from one currently playing song to another song
+    else if (this.props.currentSong && prevProps.currentSong) {
       if (
         prevProps.currentSong.title !== this.props.currentSong.title ||
         prevProps.currentSong.artist !== this.props.currentSong.artist
@@ -56,6 +48,7 @@ class MainMenu extends Component {
         });
       }
     } else {
+      // song playing to no song playing
       this.startInterval(2000);
     }
   }

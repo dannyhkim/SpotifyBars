@@ -92,7 +92,6 @@ app.get('/api/fetchSong', (req, res) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.header('Access-Control-Allow-Credentials', true);
   const cookies = req.cookies;
-  console.log("Cookies working now?" + JSON.stringify(req.cookies));
   const token = cookies['user.token'];
   const refresh = cookies['user.refresh'];
 
@@ -173,7 +172,6 @@ app.get("/api/fetchLyrics", (req, res) => {
     artist: req.query.artist,
     optimizeQuery: true,
   }
-  console.log("lyric options" + JSON.stringify(options));
   getLyrics(options)
     .then(lyrics => {
       res.status(200).json(lyrics);
@@ -182,24 +180,6 @@ app.get("/api/fetchLyrics", (req, res) => {
       res.status(500).json({ err });
     })
 });
-
-// trying different api
-const options = {
-  apiKey: settings.genius.token,
-  title: "Loyal",
-  artist: "Chris Brown",
-  optimizeQuery: true,
-};
-
-getLyrics(options).then((lyrics) => console.log(lyrics));
-
-getSong(options).then((song) =>
-  console.log(`
-	${song.id}
-	${song.url}
-	${song.albumArt}
-	${song.lyrics}`)
-);
 
 const PORT = process.env.PORT || 4000;
 
