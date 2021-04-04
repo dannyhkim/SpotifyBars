@@ -11,7 +11,7 @@ class MainMenu extends Component {
   };
 
   componentDidMount() {
-    this.startInterval(2000); // checks current song every 2 seconds
+    this.startInterval(2000); // checks for current song every 2 seconds
   }
 
   componentWillUnmount() {

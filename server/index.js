@@ -21,6 +21,7 @@ const host = process.env.HOST || "http://localhost:3000";
 
 // setting up the Spotify API
 const SpotifyWebApi = require("spotify-web-api-node");
+const { spotify } = require("./config.prod");
 const spotifyApi = new SpotifyWebApi({
   clientId: settings.spotify.clientId,
   clientSecret: settings.spotify.secret,
@@ -152,6 +153,21 @@ app.get('/auth/refresh', (req, res) => {
   res.header('Access-Control-Allow-Credentials', true);
   console.log("Refreshing token...");
   const cookies = req.cookies;
+
+  const refresh = cookies['user.refresh'];
+  spotifyApi.setRefreshToken(refresh);
+  spotifyApi.refreshAccessToken()
+    .then(data => {
+      console.log('New token retrieved');
+      res.cookie('user.token', data.body['access_token'], {
+        maxAge: 1000*60*60*24*7,
+        httpOnly: true
+      });
+      res.redirect(`${host}`);
+    }, err => {
+      console.log("There was an error refreshing the token, logging out", err);
+      res.redirect(`${host}/login`);
+    })
 })
 
 app.get("/logout", (req, res) => {
