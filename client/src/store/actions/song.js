@@ -30,12 +30,12 @@ export const getCurrentSong = () => {
               isPlaying: true,
             };
           }
-          console.log("Response: " + JSON.stringify(res.data));
+          // console.log("Response: " + JSON.stringify(res.data));
           dispatch(getCurrentSongSuccess(songData));
           return resolve();
         })
         .catch((err) => {
-          console.log("getCurrentSong failed: " + err.message);
+          // console.log("getCurrentSong failed: " + err.message);
           dispatch(getCurrentSongFailure({ song: { isPlaying: false } }));
           return resolve();
         });

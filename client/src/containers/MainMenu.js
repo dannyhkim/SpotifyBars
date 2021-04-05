@@ -113,7 +113,8 @@ class MainMenu extends Component {
     }
 
     if (!this.state.fetchingLyrics && this.props.currentSong) {
-      lyrics = <Lyrics />;
+      // lyrics = <div className={classes.lyricsContainer}>{this.props.lyrics}</div>;
+      lyrics = <Lyrics />
     }
 
     return (
