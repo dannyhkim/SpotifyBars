@@ -11,8 +11,6 @@ export const getLyrics = () => {
       const currentSong = getState().song.currentSong;
       const artist = currentSong.artist;
       const title = currentSong.title;
-      console.log("artist " + artist);
-      console.log("title " + title);
 
       axios.get(`/api/fetchLyrics?artist=${artist}&title=${title}`)
         .then(res => {
@@ -21,7 +19,6 @@ export const getLyrics = () => {
           if (!lyrics) {
             throw new Error();
           }
-          console.log("Lyrics: " + lyrics);
           dispatch(getLyricsSuccess(lyrics));
 
           return resolve();

@@ -7,10 +7,6 @@ const Lyrics = () => {
   const lyrics = useSelector((state) => state.lyrics.lyrics);
   const song = useSelector((state) => state.song.currentSong);
 
-  console.log("Lyrics song " + song);
-  console.log("Lyrics lyrics " + lyrics);
-
-
   const songHasNoLyrics = () => {
     if (song.isPlaying && song.duration > 0 && !lyrics) {
       return true;
