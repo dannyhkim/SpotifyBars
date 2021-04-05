@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import * as actions from "../store/actions/index";
 import { connect } from "react-redux";
 
+import classes from "./MainMenu.module.css";
+
 class MainMenu extends Component {
   state = {
     fetchingLyrics: false,
@@ -110,7 +112,7 @@ class MainMenu extends Component {
     }
 
     if (!this.state.fetchingLyrics && this.props.currentSong) {
-      lyrics = <div>{this.props.lyrics}</div>;
+      lyrics = <div className={classes.lyricsContainer}>{this.props.lyrics}</div>;
     }
 
     return (
