@@ -1,18 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
-const lyrics = () => {
-  const [noLyrics, setNoLyrics] = useState(false);
+import classes from './Lyrics.module.css';
 
-  const lyrics = useSelector(state => {
+const Lyrics = () => {
+
+  const lyrics = useSelector((state) => {
     return state.lyrics.lyrics;
   });
+  const song = useSelector((state) => state.song.song);
 
+  const songHasNoLyrics = () => {
+    return song.isPlaying && song.duration > 0 && !lyrics;
+  };
+
+  let lyricsContainer = '';
+
+  if (song && song.isPlaying) {
+    if (lyrics && !songHasNoLyrics) {
+      lyricsContainer = <div className={classes.lyricsContainer}>{lyrics}</div>
+    } else if (songHasNoLyrics) {
+      lyricsContainer = <div><h3>Sorry, no lyrics are available for this song at the moment.</h3></div>
+    }
+  }
   return (
-    <div>{lyrics}</div>
-  )
-}
+  <div>
+    {lyricsContainer}
+  </div>);
+};
 
-
-
-export default lyrics;
+export default Lyrics;

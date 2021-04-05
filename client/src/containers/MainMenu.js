@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import * as actions from "../store/actions/index";
 import { connect } from "react-redux";
 
+import Lyrics from '../components/Lyrics';
+
 import classes from "./MainMenu.module.css";
 
 class MainMenu extends Component {
@@ -35,7 +37,7 @@ class MainMenu extends Component {
         this.setState({ fetchingLyrics: false });
       });
     } // switch from one currently playing song to another song
-    else if (this.props.currentSong && prevProps.currentSong) {
+    else if (this.props.currentSong) {
       if (
         prevProps.currentSong.title !== this.props.currentSong.title ||
         prevProps.currentSong.artist !== this.props.currentSong.artist
@@ -111,7 +113,7 @@ class MainMenu extends Component {
     }
 
     if (!this.state.fetchingLyrics && this.props.currentSong) {
-      lyrics = <div className={classes.lyricsContainer}>{this.props.lyrics}</div>;
+      lyrics = <Lyrics />;
     }
 
     return (
