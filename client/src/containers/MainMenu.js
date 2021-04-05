@@ -22,7 +22,6 @@ class MainMenu extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     // every time the state of the song updates (new song, nothing playing), update modes
-    // if no song playing
 
     // Possibilities for updating
 
@@ -117,7 +116,7 @@ class MainMenu extends Component {
 
     return (
       <div>
-        <p>Lyrics</p>
+        <h1>Lyrics</h1>
         {notListening}
         {idle}
         {fetchingLyrics}
