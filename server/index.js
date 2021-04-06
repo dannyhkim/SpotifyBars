@@ -176,7 +176,7 @@ app.get("/logout", (req, res) => {
   res.clearCookie('loggedIn');
   res.clearCookie('user.token');
   res.clearCookie('user.refresh');
-  res.redirect(`${host}/login`);
+  res.redirect(`${host}`);
 });
 
 // Lyrics

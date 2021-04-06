@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import * as actions from "../store/actions/index";
+import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
+import Cookies from 'js-cookie';
 
-import Lyrics from '../components/Lyrics';
+import Lyrics from '../../components/Lyrics/Lyrics';
 
 import classes from "./MainMenu.module.css";
 
@@ -14,15 +15,18 @@ class MainMenu extends Component {
     idleMax: 20,
   };
 
-  componentDidMount() {
+  componentDidMount () {
+    if (!this.isLoggedIn) {
+      this.props.history.replace("/login");
+    }
     this.startInterval(2000); // checks for current song every 2 seconds
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     clearInterval(this.timerId);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate (prevProps, prevState) {
     // every time the state of the song updates (new song, nothing playing), update modes
 
     // Possibilities for updating
@@ -56,9 +60,13 @@ class MainMenu extends Component {
     }
   }
 
+  isLoggedIn () {
+    return Cookies.get('loggedIn');
+  }
+
   // persistent checking for current song to update playback state
   // fetches song if available, otherwise times out to idle mode
-  startInterval(interval) {
+  startInterval (interval) {
     clearInterval(this.timerId);
     this.timerId = setInterval(async () => {
       if (this.props.settings.autoRefresh) {

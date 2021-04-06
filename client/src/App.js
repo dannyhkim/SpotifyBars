@@ -1,38 +1,22 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, withRouter, Redirect } from "react-router-dom";
 import Login from "./containers/Login";
-import MainMenu from "./containers/MainMenu";
+import MainMenu from "./containers/MainMenu/MainMenu";
 import "./App.css";
 
 function App() {
-
   return (
     <div className="App">
-      <Router>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Main Menu</Link>
-              </li>
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
-
-        <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/">
-            <MainMenu />
-          </Route>
-        </Switch>
-      </Router>
+      <Switch>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/" exact>
+          <MainMenu />
+        </Route>
+      </Switch>
     </div>
   );
 }
 
-export default App;
+export default withRouter(App);

@@ -15,12 +15,7 @@ export const getLyrics = () => {
       axios.get(`/api/fetchLyrics?artist=${artist}&title=${title}`)
         .then(res => {
           const lyrics = res.data;
-
-          if (!lyrics) {
-            throw new Error();
-          }
           dispatch(getLyricsSuccess(lyrics));
-
           return resolve();
         })
         .catch(err => {
