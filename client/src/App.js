@@ -14,6 +14,7 @@ function App() {
         <Route path="/" exact>
           <MainMenu />
         </Route>
+        <Redirect to="/" />
       </Switch>
     </div>
   );
