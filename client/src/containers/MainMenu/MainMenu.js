@@ -114,8 +114,8 @@ class MainMenu extends Component {
         <div>
           <p>
             Fetching lyrics for...
-            <span style={{color: "#1DB954"}}>{this.props.currentSong.title} </span>
-            <span style={{color: "#000"}}>{this.props.currentSong.artist}</span>
+            <span style={{color: "#1DB954"}}>{this.props.currentSong.title}</span>
+            <span style={{fontWeight: "bold"}}> by {this.props.currentSong.artist}</span>
           </p>
         </div>
       );
@@ -128,7 +128,7 @@ class MainMenu extends Component {
     return (
       <div>
         <Navbar />
-        <h1>Lyrics</h1>
+        <h1 style={{fontSize: "60px"}}>Lyrics</h1>
         {notListening}
         {idle}
         {fetchingLyrics}
