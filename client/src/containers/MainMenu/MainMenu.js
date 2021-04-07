@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Cookies from 'js-cookie';
 
 import Lyrics from '../../components/Lyrics/Lyrics';
+import Navbar from '../../components/Navbar/Navbar';
 
 import classes from "./MainMenu.module.css";
 
@@ -102,9 +103,9 @@ class MainMenu extends Component {
 
     if (this.state.idle) {
       idle = (
-        <button onClick={this.props.onGetCurrentSong}>
+        <p style={{color: "#1DB954", fontSize: "20px"}} onClick={this.props.onGetCurrentSong}>
           You're idle! Click here to wake up Spotify Bars.
-        </button>
+        </p>
       );
     }
 
@@ -127,6 +128,7 @@ class MainMenu extends Component {
 
     return (
       <div>
+        <Navbar />
         <h1>Lyrics</h1>
         {notListening}
         {idle}
