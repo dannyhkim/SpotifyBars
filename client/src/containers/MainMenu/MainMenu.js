@@ -103,7 +103,7 @@ class MainMenu extends Component {
 
     if (this.state.idle) {
       idle = (
-        <p style={{color: "#1DB954", fontSize: "20px"}} onClick={this.props.onGetCurrentSong}>
+        <p style={{color: "#1DB954", fontSize: "20px", cursor: "pointer"}} onClick={this.props.onGetCurrentSong}>
           You're idle! Click here to wake up Spotify Bars.
         </p>
       );
