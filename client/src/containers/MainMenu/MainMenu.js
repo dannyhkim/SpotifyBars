@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
-import Lyrics from '../../components/Lyrics/Lyrics';
-import Navbar from '../../components/Navbar/Navbar';
+import Lyrics from "../../components/Lyrics/Lyrics";
+import Navbar from "../../components/Navbar/Navbar";
 
 import classes from "./MainMenu.module.css";
 
@@ -16,18 +16,18 @@ class MainMenu extends Component {
     idleMax: 20,
   };
 
-  componentDidMount () {
+  componentDidMount() {
     if (!this.isLoggedIn) {
       this.props.history.replace("/login");
     }
     this.startInterval(2000); // checks for current song every 2 seconds
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearInterval(this.timerId);
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     // every time the state of the song updates (new song, nothing playing), update modes
 
     // Possibilities for updating
@@ -61,13 +61,13 @@ class MainMenu extends Component {
     }
   }
 
-  isLoggedIn () {
-    return Cookies.get('loggedIn');
+  isLoggedIn() {
+    return Cookies.get("loggedIn");
   }
 
   // persistent checking for current song to update playback state
   // fetches song if available, otherwise times out to idle mode
-  startInterval (interval) {
+  startInterval(interval) {
     clearInterval(this.timerId);
     this.timerId = setInterval(async () => {
       if (this.props.settings.autoRefresh) {
@@ -103,7 +103,10 @@ class MainMenu extends Component {
 
     if (this.state.idle) {
       idle = (
-        <p style={{color: "#1DB954", fontSize: "20px", cursor: "pointer"}} onClick={this.props.onGetCurrentSong}>
+        <p
+          style={{ color: "#1DB954", fontSize: "20px", cursor: "pointer" }}
+          onClick={this.props.onGetCurrentSong}
+        >
           You're idle! Click here to wake up Spotify Bars.
         </p>
       );
@@ -112,23 +115,28 @@ class MainMenu extends Component {
     if (this.state.fetchingLyrics) {
       fetchingLyrics = (
         <div>
-          <p>
+          <p style={{ color: "#000" }}>
             Fetching lyrics for...
-            <span style={{color: "#1DB954"}}>{this.props.currentSong.title}</span>
-            <span style={{fontWeight: "bold"}}> by {this.props.currentSong.artist}</span>
+            <span style={{ color: "#1DB954" }}>
+              {this.props.currentSong.title}
+            </span>
+            <span style={{ fontWeight: "bold" }}>
+              {" "}
+              by {this.props.currentSong.artist}
+            </span>
           </p>
         </div>
       );
     }
 
     if (!this.state.fetchingLyrics && this.props.currentSong) {
-      lyrics = <Lyrics />
+      lyrics = <Lyrics />;
     }
 
     return (
       <div>
         <Navbar />
-        <h1 style={{fontSize: "60px"}}>Lyrics</h1>
+        <h1 style={{ fontSize: "60px", color: "#000" }}>Lyrics</h1>
         {notListening}
         {idle}
         {fetchingLyrics}
