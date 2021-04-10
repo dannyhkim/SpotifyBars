@@ -8,12 +8,8 @@ function App() {
   return (
     <div className="App">
       <Switch>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/" exact>
-          <MainMenu />
-        </Route>
+        <Route path="/login" render={(props) => <Login {...props} />} />
+        <Route path="/" exact render={props => <MainMenu {...props} /> } />
         <Redirect to="/" />
       </Switch>
     </div>

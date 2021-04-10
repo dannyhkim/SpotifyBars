@@ -89,12 +89,12 @@ passport.use(
 );
 
 // we gonna need access token and refresh token and then we can use spotifyApi to get current track data
-app.get('/api/fetchSong', (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.header('Access-Control-Allow-Credentials', true);
+app.get("/api/fetchSong", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Credentials", true);
   const cookies = req.cookies;
-  const token = cookies['user.token'];
-  const refresh = cookies['user.refresh'];
+  const token = cookies["user.token"];
+  const refresh = cookies["user.refresh"];
 
   if (token) {
     spotifyApi.setAccessToken(token);
@@ -111,7 +111,7 @@ app.get('/api/fetchSong', (req, res) => {
         }
       });
   } else {
-    res.status(200).send({ error: 'No access token' });
+    res.status(200).send({ error: "No access token" });
   }
 });
 
@@ -125,76 +125,79 @@ app.get(
 );
 
 app.get(
-  '/auth/spotify/callback',
-  passport.authenticate('spotify', {
-    failureRedirect: '/'
+  "/auth/spotify/callback",
+  passport.authenticate("spotify", {
+    failureRedirect: "/",
   }),
   (req, res) => {
-    console.log('User logged in...');
-    res.cookie('loggedIn', true, {
-      maxAge: 1000*60*60*24*7,
-      httpOnly: false
+    console.log("User logged in...");
+    res.cookie("loggedIn", true, {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      httpOnly: false,
     });
-    res.cookie('user.token', req.user.accessToken, {
-      maxAge: 1000*60*60*24*7,
-      httpOnly: true
+    res.cookie("user.token", req.user.accessToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      httpOnly: true,
     });
-    res.cookie('user.refresh', req.user.refreshToken, {
-      maxAge: 1000*60*60*24*7,
-      httpOnly: true
+    res.cookie("user.refresh", req.user.refreshToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      httpOnly: true,
     });
     res.send();
     res.redirect(`${host}`);
   }
 );
 
-app.get('/auth/refresh', (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.header('Access-Control-Allow-Credentials', true);
+app.get("/auth/refresh", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Credentials", true);
   console.log("Refreshing token...");
   const cookies = req.cookies;
 
-  const refresh = cookies['user.refresh'];
+  const refresh = cookies["user.refresh"];
   spotifyApi.setRefreshToken(refresh);
-  spotifyApi.refreshAccessToken()
-    .then(data => {
-      console.log('New token retrieved');
-      res.cookie('user.token', data.body['access_token'], {
-        maxAge: 1000*60*60*24*7,
-        httpOnly: true
+  spotifyApi.refreshAccessToken().then(
+    (data) => {
+      console.log("New token retrieved");
+      res.cookie("user.token", data.body["access_token"], {
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        httpOnly: true,
       });
       res.redirect(`${host}`);
-    }, err => {
+    },
+    (err) => {
       console.log("There was an error refreshing the token, logging out", err);
-      res.redirect(`${host}/login`);
-    })
-})
+      res.redirect(`${host}`);
+    }
+  );
+});
 
 app.get("/logout", (req, res) => {
-  console.log('Logging out...');
+  console.log("Logging out...");
   req.logout();
-  res.clearCookie('loggedIn');
-  res.clearCookie('user.token');
-  res.clearCookie('user.refresh');
+  res.clearCookie("loggedIn");
+  res.clearCookie("user.token");
+  res.clearCookie("user.refresh");
+  console.log('Cookies cleared');
   res.redirect(`${host}`);
 });
 
 // Lyrics
 app.get("/api/fetchLyrics", (req, res) => {
-  console.log('Searching for lyrics...');
+  console.log("Searching for lyrics...");
   const options = {
     apiKey: settings.genius.token,
     title: req.query.title,
     artist: req.query.artist,
     optimizeQuery: true,
-  }
+  };
   getLyrics(options)
-    .then(lyrics => {
+    .then((lyrics) => {
       res.status(200).json(lyrics);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({ err });
-    })
+    });
 });
 
 const PORT = process.env.PORT || 4000;

@@ -17,7 +17,8 @@ class MainMenu extends Component {
   };
 
   componentDidMount() {
-    if (!this.isLoggedIn) {
+    if (!this.isLoggedIn()) {
+      console.log("Did this get touched");
       this.props.history.replace("/login");
     }
     this.startInterval(2000); // checks for current song every 2 seconds
@@ -62,7 +63,7 @@ class MainMenu extends Component {
   }
 
   isLoggedIn() {
-    return Cookies.get("loggedIn");
+    return Cookies.get('loggedIn');
   }
 
   // persistent checking for current song to update playback state
