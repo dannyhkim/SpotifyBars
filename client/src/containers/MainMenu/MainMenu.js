@@ -134,7 +134,7 @@ class MainMenu extends Component {
     }
 
     return (
-      <div>
+      <div className={classes}>
         <Navbar />
         <h1 style={{ fontSize: "60px", color: "#000" }}>Lyrics</h1>
         {notListening}

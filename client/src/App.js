@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route, withRouter, Redirect } from "react-router-dom";
-import Login from "./containers/Login";
+import Login from "./containers/Login/Login";
 import MainMenu from "./containers/MainMenu/MainMenu";
 import "./App.css";
 

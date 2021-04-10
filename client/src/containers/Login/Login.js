@@ -1,18 +1,12 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import classes from './Login.module.css';
 
 class Login extends Component {
-  state = {
-    loggedIn: false,
-    user: null,
-    error: null
-  }
 
   render() {
     return (
-      <div>
-        <h1>Spotify Bars</h1>
+      <div className={classes}>
+        <h1 className={classes.title}>Spotify Bars</h1>
         <h3>
           Real-time lyrics for the song you're currently listening to on
           Spotify! You haven't logged in yet!
