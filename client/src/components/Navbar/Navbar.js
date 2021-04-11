@@ -1,6 +1,6 @@
 import React from "react";
-import axios from 'axios';
-import { FaBars } from 'react-icons/fa';
+import axios from "axios";
+import { FaBars } from "react-icons/fa";
 import {
   Nav,
   NavbarContainer,
@@ -8,18 +8,18 @@ import {
   MobileIcon,
   NavMenu,
   NavItem,
-  NavLinks
+  NavLinks,
+  NavLinkCustom,
+  NavBtn,
+  NavBtnCustom,
 } from "./NavbarElements";
 
 const Navbar = () => {
-
   return (
     <>
       <Nav>
         <NavbarContainer>
-          <NavLogo to="/">
-            Spotify Bars
-          </NavLogo>
+          <NavLogo to="/">Spotify Bars</NavLogo>
           <MobileIcon>
             <FaBars />
           </MobileIcon>
@@ -30,9 +30,9 @@ const Navbar = () => {
             <NavItem>
               <NavLinks to="settings">Settings</NavLinks>
             </NavItem>
-            <NavItem>
-              <a href="http://localhost:4000/logout">Logout</a>
-            </NavItem>
+            <NavBtn>
+              <NavBtnCustom to="/">Sign out</NavBtnCustom>
+            </NavBtn>
           </NavMenu>
         </NavbarContainer>
       </Nav>

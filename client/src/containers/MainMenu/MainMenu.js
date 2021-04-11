@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
 import Cookies from "js-cookie";
-
 import Lyrics from "../../components/Lyrics/Lyrics";
-import Navbar from "../../components/Navbar/Navbar";
-
 import classes from "./MainMenu.module.css";
 
 class MainMenu extends Component {
@@ -136,7 +133,6 @@ class MainMenu extends Component {
 
     return (
       <div className={classes}>
-        <Navbar />
         <h1 style={{ fontSize: "60px", color: "#000" }}>Lyrics</h1>
         {notListening}
         {idle}
