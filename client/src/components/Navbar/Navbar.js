@@ -13,8 +13,19 @@ import {
   NavBtn,
   NavBtnCustom,
 } from "./NavbarElements";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
+  const isLoggedIn = () => {
+    return Cookies.get("loggedIn");
+  };
+
+  const signOut = isLoggedIn() ? (
+    <NavBtn>
+      <NavBtnCustom href="http://localhost:4000/logout">Sign out</NavBtnCustom>
+    </NavBtn>
+  ) : null;
+
   return (
     <>
       <Nav>
@@ -30,9 +41,7 @@ const Navbar = () => {
             <NavItem>
               <NavLinks to="settings">Settings</NavLinks>
             </NavItem>
-            <NavBtn>
-              <NavBtnCustom href="http://localhost:4000/logout">Sign out</NavBtnCustom>
-            </NavBtn>
+            {signOut}
           </NavMenu>
         </NavbarContainer>
       </Nav>

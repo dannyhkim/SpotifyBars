@@ -15,7 +15,6 @@ class MainMenu extends Component {
 
   componentDidMount() {
     if (!this.isLoggedIn()) {
-      console.log("Did this get touched");
       this.props.history.replace("/login");
     }
     this.startInterval(2000); // checks for current song every 2 seconds
