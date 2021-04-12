@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import classes from './Login.module.css';
+import classes from "./Login.module.css";
 
 class Login extends Component {
-
   render() {
     return (
       <div className={classes}>
@@ -11,7 +10,14 @@ class Login extends Component {
           Real-time lyrics for the song you're currently listening to on
           Spotify! You haven't logged in yet!
         </h3>
-        <a href="http://localhost:4000/auth/spotify">Sign in with Spotify</a>
+        <div className={classes.button_container}>
+          <a
+            className={classes.button}
+            href="http://localhost:4000/auth/spotify"
+          >
+            Sign in with Spotify
+          </a>
+        </div>
       </div>
     );
   }

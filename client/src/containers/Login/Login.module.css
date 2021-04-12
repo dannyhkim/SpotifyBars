@@ -1,5 +1,30 @@
 .title {
   font-size: 60px;
-  font-weight: 400;
+  font-weight: 600;
+  color: #000;
+}
+
+.button_container {
+  padding-top: 30px;
+}
+
+.button {
+  border-radius: 50px;
+  background: #000;
+  white-space: nowrap;
+  padding: 10px 22px;
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.button:hover {
+  border: 2px solid #000;
+  transition: all 0.2s ease-in-out;
+  background: #fff;
   color: #000;
 }
