@@ -31,7 +31,7 @@ const Navbar = () => {
               <NavLinks to="settings">Settings</NavLinks>
             </NavItem>
             <NavBtn>
-              <NavBtnCustom to="/">Sign out</NavBtnCustom>
+              <NavBtnCustom href="http://localhost:4000/logout">Sign out</NavBtnCustom>
             </NavBtn>
           </NavMenu>
         </NavbarContainer>
