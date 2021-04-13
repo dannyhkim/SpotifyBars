@@ -7,6 +7,7 @@ const Lyrics = () => {
   const lyrics = useSelector((state) => state.lyrics.lyrics);
   const song = useSelector((state) => state.song.currentSong);
 
+  // checks song properties and whether lyrics in redux state exists
   const songHasNoLyrics = () => {
     if (song.isPlaying && song.duration > 0 && !lyrics) {
       return true;
